@@ -1,5 +1,4 @@
-from xml.etree.ElementInclude import include
-from setuptools import setup, find_packages
+from setuptools import setup
 
 
 setup(
@@ -7,7 +6,10 @@ setup(
     version='0.0.1',
     description='simple util to create and control processes',
     long_description='simple util to create and control processes',
-    packages=find_packages(),
+    packages=['daemon_handler', 'daemon_handler.process_tools'],
+    entry_points={'console_scripts':[
+        'd-handler=daemon_handler.daemon_handler:main'
+    ]},
     url='https://github.com/megashchik/daemon-handler',
     author='Ivan Chizhikov',
     author_email='megashchik@gmail.com',

@@ -1,7 +1,7 @@
 import sys
 from typing import Tuple
 
-from process_tools import privileged, unprivileged
+from .process_tools import privileged, unprivileged
 
 
 COUNT       = '--count'
@@ -37,7 +37,7 @@ def _get_name_and_arguments() -> Tuple[str, str]:
     if arguments == '':
         arguments = _get_base_arg()
 
-    if name == '':
+    if name == '' and len(arguments.split(' ')[0]) > 0:
         name = arguments.split(' ')[0].split('/')[-1]
 
     return name, arguments
@@ -54,6 +54,7 @@ def _get_base_arg() -> str:
     for arg in sys.argv[1:]:
         if not arg.startswith('-'):
             return arg
+    return ''
 
 
 def parse_args():
