@@ -1,10 +1,11 @@
 import os
 import subprocess
+from typing import Iterable
 import psutil
 
 
-def start(args:str):
-    arguments = args.split(' ')
+def start(args:Iterable[str]):
+    arguments = ' '.join(args).split()
     subprocess.Popen(arguments, close_fds=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, stdin=subprocess.DEVNULL)
 
 
