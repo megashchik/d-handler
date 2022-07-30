@@ -8,7 +8,11 @@ COUNT       = 'count'
 STOP_ALL    = 'stop_all'
 ARGS        = 'args'
 SIGNAL      = 'signal'
-REGULAR     = 'regular' # TODO
+REGULAR     = 'regular'
+
+
+def _get_args(process:str, args:str):
+    return ' '.join([process, args]).strip()
 
 
 def parse_args():
@@ -18,14 +22,24 @@ def parse_args():
     parser.add_argument('--' + COUNT, action='store_true', help='print count of replicas')
     parser.add_argument('--' + STOP_ALL, action='store_true', help='stop all replicas')
     parser.add_argument('--' + SIGNAL, type=int, help='signal to processes', default=15)
+    parser.add_argument('--' + REGULAR, action='store_true', help='process is regular pattern')
     args = parser.parse_args().__dict__
-    print(args)
     if args[COUNT]:
-        cnt = unprivileged.count(args[PROCESS], args[ARGS])
+        cnt = 0
+        if args[REGULAR]:
+            cnt = len(unprivileged.get_processes_by_regular(args[PROCESS]))
+        else:
+            cnt = unprivileged.count(_get_args(args[PROCESS], args[ARGS]))
         print(cnt)
     elif args[STOP_ALL]:
         unprivileged.check_root()
-        closed_count = privileged.stop_all(args[PROCESS], args[ARGS], args[SIGNAL])
+        closed_count = 0
+        if args[REGULAR]:
+            processes = unprivileged.get_processes_by_regular(args[PROCESS])
+            for proc in processes:
+                closed_count += privileged.stop_all(proc, signal=args[SIGNAL])
+        else:
+            closed_count = privileged.stop_all(_get_args(args[PROCESS], args[ARGS]), args[SIGNAL])
         print(closed_count)
     else:
         unprivileged.start([args[PROCESS], args[ARGS]])

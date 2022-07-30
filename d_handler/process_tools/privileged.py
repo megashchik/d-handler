@@ -1,10 +1,10 @@
 import os
 
-from .unprivileged import get_pids
+from .unprivileged import get_pids_by_args
 
 
-def stop_all(process_name:str, args:str = '', signal:int = 15) -> int:
-    pids = get_pids(process_name, args)
+def stop_all(args:str, signal:int = 15) -> int:
+    pids = get_pids_by_args(args)
     for pid in pids:
         stop(pid, signal)
     return len(pids)
