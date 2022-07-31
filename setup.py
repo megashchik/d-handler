@@ -9,7 +9,6 @@ setup(
     packages=[
         'd_handler', 'd_handler.process_tools'
     ],
-    # packages=['daemon_handler', 'daemon_handler.process_tools', 'daemon_handler.main', 'daemon_handler.process_tools.'],
     entry_points={'console_scripts':[
         'd-handler=d_handler.main:main'
     ]},
