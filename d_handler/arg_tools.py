@@ -19,11 +19,11 @@ def _get_args(process:str, args:str):
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument(PROCESS, type=str)
-    parser.add_argument('--' + ARGS, type=str, help='arg in \'\'', default='')
-    parser.add_argument('--' + COUNT, action='store_true', help='print count of replicas')
-    parser.add_argument('--' + STOP_ALL, action='store_true', help='stop all replicas')
-    parser.add_argument('--' + SIGNAL, type=int, help='signal to processes', default=15)
-    parser.add_argument('--' + REGULAR, action='store_true', help='process is regular pattern')
+    parser.add_argument('-a', '--' + ARGS, type=str, help='arg in \'\'', default='')
+    parser.add_argument('-c', '--' + COUNT, action='store_true', help='print count of replicas')
+    parser.add_argument('-k', '--' + STOP_ALL, action='store_true', help='stop all replicas')
+    parser.add_argument('-s', '--' + SIGNAL, type=int, help='signal to processes', default=15)
+    parser.add_argument('-r', '--' + REGULAR, action='store_true', help='process is regular pattern')
     args = parser.parse_args().__dict__
     if args[COUNT]:
         cnt = 0
