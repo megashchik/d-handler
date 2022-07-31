@@ -1,4 +1,5 @@
 import argparse
+import os
 
 from .process_tools import privileged, unprivileged
 
@@ -27,7 +28,7 @@ def parse_args():
     if args[COUNT]:
         cnt = 0
         if args[REGULAR]:
-            cnt = len(unprivileged.get_processes_by_regular(args[PROCESS]))
+            cnt = len(unprivileged.get_pids_by_regular(args[PROCESS]))
         else:
             cnt = unprivileged.count(_get_args(args[PROCESS], args[ARGS]))
         print(cnt)
@@ -35,9 +36,7 @@ def parse_args():
         unprivileged.check_root()
         closed_count = 0
         if args[REGULAR]:
-            processes = unprivileged.get_processes_by_regular(args[PROCESS])
-            for proc in processes:
-                closed_count += privileged.stop_all(proc, signal=args[SIGNAL])
+            closed_count = privileged.stop_by_regular(args[PROCESS], args[SIGNAL])
         else:
             closed_count = privileged.stop_all(_get_args(args[PROCESS], args[ARGS]), args[SIGNAL])
         print(closed_count)
