@@ -11,7 +11,7 @@ SIGNAL      = 'signal'
 REGULAR     = 'regular'
 
 
-def _get_args(process:str, args:str):
+def _get_args(process:str, args:str) -> str:
     return ' '.join([process, args]).strip()
 
 

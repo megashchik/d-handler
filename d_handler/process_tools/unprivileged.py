@@ -2,7 +2,7 @@ import os
 import re
 import subprocess
 import psutil
-from typing import Iterable
+from typing import Iterable, List
 
 
 def check_root():
@@ -14,14 +14,14 @@ def count(args:str = '') -> int:
     return len(get_pids_by_args(args))
 
 
-def get_args(pid:int) -> list[str]:
+def get_args(pid:int) -> List[str]:
     for proc in psutil.process_iter():
         if proc.pid == pid:
             return proc.cmdline()
 
 
-def get_pids_by_args(args:str) -> list[int]:
-    pids = list[int]()
+def get_pids_by_args(args:str) -> List[int]:
+    pids = []
     for proc in psutil.process_iter():
         print(proc.cmdline(), proc.pid)
         if args == ' '.join(proc.cmdline()):
@@ -29,16 +29,16 @@ def get_pids_by_args(args:str) -> list[int]:
     return pids
 
 
-def get_pids_by_name(process_name:str) -> list[int]:
-    pids = list[int]()
+def get_pids_by_name(process_name:str) -> List[int]:
+    pids = []
     for proc in psutil.process_iter():
         if process_name == proc.name():
             pids.append(proc.pid)
     return pids
 
 
-def get_pids_by_regular(pattern:str) -> list[str]:
-    pids = list[int]()
+def get_pids_by_regular(pattern:str) -> List[str]:
+    pids = []
     # list of pids from current procees
     self_pids = [p.pid for p in psutil.Process(os.getpid()).parents()]
     self_pids.append(os.getpid())
